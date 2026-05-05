@@ -17,7 +17,6 @@
     ],
     "final": "dns-doh",
     "strategy": "prefer_ipv4",
-    "independent_cache": true,
     "reverse_mapping": true
   },
   "inbounds": [
@@ -36,7 +35,7 @@
       "tag": "redirect-in",
       "type": "tproxy",
       "listen": "::",
-      "listen_port": 10088,
+      "listen_port": 10089,
       "sniff": true
     }
   ],
@@ -90,7 +89,8 @@
     { "tag": "apple", "type": "selector", "outbounds": ["direct", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
     { "tag": "cn", "type": "selector", "outbounds": ["direct", "🚀 默认代理"] },
     { "tag": "final", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT", "direct"] },
-    { "tag": "GLOBAL", "type": "selector", "outbounds": ["direct", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] }
+    { "tag": "GLOBAL", "type": "selector", "outbounds": ["direct", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "direct", "type": "direct" }
   ],
   "route": {
     "rules": [
@@ -155,7 +155,8 @@
     },
     "cache_file": {
       "enabled": true,
-      "store_fakeip": true
+      "store_fakeip": true,
+      "store_dns": true
     }
   }
 }
