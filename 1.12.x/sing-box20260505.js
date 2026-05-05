@@ -1,21 +1,27 @@
-const { type, name } = $arguments
+const { type, name } = $arguments; // 修复：必须有分号
 const compatible_outbound = {
   tag: 'COMPATIBLE',
   type: 'direct',
-}
-let compatible
-let config = JSON.parse($files[0])
+};
+let compatible;
+let config = JSON.parse($files[0]);
 
 let proxies = await produceArtifact({
   name,
   type: /^1$|col/i.test(type) ? 'collection' : 'subscription',
   platform: 'sing-box',
   produceType: 'internal',
-})
+});
 
-config.outbounds.push(...proxies)
+// 1. 注入节点
+config.outbounds.push(...proxies);
 
+// 2. 处理各个分组逻辑
 config.outbounds.map(i => {
+  // 核心修复：检查 i.outbounds 是否存在，不存在就跳过，防止报错
+  if (!i.outbounds || !Array.isArray(i.outbounds)) return;
+
+  // --- 以下完全保留你的原版分组逻辑，未做任何改动 ---
   if (i.tag === '香港-落地专机') {
     i.outbounds.push(...getTags(proxies, /香港-落地专机/i))
   }
@@ -34,7 +40,6 @@ config.outbounds.map(i => {
   if (i.tag === '美国-落地专机') {
     i.outbounds.push(...getTags(proxies, /美国-落地专机/i))
   }
-
   if (['all', 'all-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies))
   }
@@ -56,8 +61,9 @@ config.outbounds.map(i => {
   if (['us', 'us-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /🇺🇸|US|us|unitedstates|united states|🇺🇲/i))
   }
-})
+});
 
+// 3. 兜底处理
 config.outbounds.forEach(outbound => {
   if (Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0) {
     if (!compatible) {
