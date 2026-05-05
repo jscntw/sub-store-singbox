@@ -1,4 +1,9 @@
 {
+  "log": {
+    "disabled": false,
+    "level": "info",
+    "timestamp": true
+  },
   "dns": {
     "servers": [
       { "tag": "local", "type": "udp", "server": "223.5.5.5" },
@@ -7,12 +12,23 @@
       { "tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18" }
     ],
     "rules": [
-      { "rule_set": "ads_awavenue", "server": "block", "disable_cache": true },
-      { "clash_mode": "direct", "server": "local"},
-      { "clash_mode": "global", "server": "fakeip"},
-      { "query_type": "HTTPS", "action": "reject"},
-      { "query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1},
-      { "rule_set": "cn_domain", "server": "local"}
+      // 1. 强制直连解析下载规则集的域名，防止死循环
+      { 
+        "domain": [
+          "ghfast.top", 
+          "raw.githubusercontent.com", 
+          "github.com",
+          "dns.alidns.com"
+        ], 
+        "server": "local" 
+      },
+      // 2. 直接拒绝广告域名的 DNS 请求
+      { "rule_set": "ads_awavenue", "action": "reject" },
+      { "clash_mode": "direct", "server": "local" },
+      { "clash_mode": "global", "server": "fakeip" },
+      { "query_type": "HTTPS", "action": "reject" },
+      { "query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1 },
+      { "rule_set": "cn_domain", "server": "local" }
     ],
     "final": "foreign",
     "client_subnet": "223.5.5.0/24",
@@ -20,16 +36,23 @@
     "independent_cache": true,
     "reverse_mapping": true
   },
-  
+  "inbounds": [
+    { "tag": "dns-in", "type": "direct", "listen": "::", "listen_port": 1053 },
+    { "tag": "http-in", "type": "http", "listen": "::", "listen_port": 8080 },
+    { "tag": "socks-in", "type": "socks", "listen": "::", "listen_port": 1080 },
+    { "tag": "redirect-in", "type": "redirect", "listen": "::", "listen_port": 7890 },
+    { "tag": "tproxy-in", "type": "tproxy", "listen": "::", "listen_port": 7891 },
+    { "tag": "tun-in", "type": "tun", "interface_name": "momo", "address": ["172.31.0.1/30", "fdfe:dcba:9876::1/126"], "auto_route": false, "auto_redirect": false }
+  ],
   "outbounds": [
+    { "tag": "🚀 默认代理", "type": "selector", "outbounds": ["♻️ AT", "📌 MT", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "direct"] },
     { "tag": "美国-中转切换", "type": "selector", "outbounds": ["us-auto", "hk-auto", "jp-auto", "kr-auto", "sg-auto", "tw-auto", "♻️ AT", "📌 MT"] },
     { "tag": "香港-中转切换", "type": "selector", "outbounds": ["hk-auto", "us-auto", "jp-auto", "kr-auto", "sg-auto", "tw-auto", "♻️ AT", "📌 MT"] },
     { "tag": "日本-中转切换", "type": "selector", "outbounds": ["jp-auto", "us-auto", "hk-auto", "kr-auto", "sg-auto", "tw-auto", "♻️ AT", "📌 MT"] },
     { "tag": "韩国-中转切换", "type": "selector", "outbounds": ["kr-auto", "us-auto", "hk-auto", "jp-auto", "sg-auto", "tw-auto", "♻️ AT", "📌 MT"] },
     { "tag": "新加坡-中转切换", "type": "selector", "outbounds": ["sg-auto", "us-auto", "hk-auto", "jp-auto", "kr-auto", "tw-auto", "♻️ AT", "📌 MT"] },
     { "tag": "台湾-中转切换", "type": "selector", "outbounds": ["tw-auto", "us-auto", "hk-auto", "jp-auto", "kr-auto", "sg-auto", "♻️ AT", "📌 MT"] },
-    { "tag": "🚀 默认代理", "type": "selector", "outbounds": ["♻️ AT", "📌 MT", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "direct"] },
-    { "tag": "📌 MT", "type": "selector", "outbounds": ["us", "hk", "jp", "kr", "sg", "tw", "all"] },
+    { "tag": "📌 MT", "type": "selector", "outbounds": ["us", "hk", "jp", "kr", "sg", "tw"] },
     { "tag": "♻️ AT", "type": "selector", "outbounds": ["us-auto", "hk-auto", "jp-auto", "kr-auto", "sg-auto", "tw-auto"] },
     { "tag": "美国-链式", "type": "selector", "outbounds": ["美国-落地专机"] },
     { "tag": "香港-链式", "type": "selector", "outbounds": ["香港-落地专机"] },
@@ -74,14 +97,14 @@
     { "tag": "direct", "type": "direct" }
   ],
   "route": {
-	"default_domain_resolver": "local",   
+    "default_domain_resolver": "local",
     "rules": [
       { "rule_set": "ads_awavenue", "action": "reject" },
-	  {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
-      {"inbound": "dns-in", "action": "hijack-dns"},
-      {"ip_is_private": true, "outbound": "direct"},
-      {"clash_mode": "direct", "outbound": "direct"},	  
-      {"clash_mode": "global", "outbound": "GLOBAL"},
+      { "action": "sniff", "sniffer": ["http", "tls", "quic", "dns"] },
+      { "inbound": "dns-in", "action": "hijack-dns" },
+      { "ip_is_private": true, "outbound": "direct" },
+      { "clash_mode": "direct", "outbound": "direct" },
+      { "clash_mode": "global", "outbound": "GLOBAL" },
       { "rule_set": "youtube_domain", "outbound": "youtube" },
       { "rule_set": ["google_ip", "google_domain"], "outbound": "google" },
       { "rule_set": ["telegram_ip", "telegram_domain"], "outbound": "telegram" },
@@ -128,49 +151,6 @@
     "final": "final",
     "auto_detect_interface": true
   },
-  "inbounds": [
-    {
-      "tag": "dns-in",
-      "type": "direct",
-      "listen": "::",
-      "listen_port": 1053
-    },
-    {
-      "tag": "http-in",
-      "type": "http",
-      "listen": "::",
-      "listen_port": 8080
-    },
-    {
-      "tag": "socks-in",
-      "type": "socks",
-      "listen": "::",
-      "listen_port": 1080
-    },
-    {
-      "tag": "redirect-in",
-      "type": "redirect",
-      "listen": "::",
-      "listen_port": 7890
-    },
-    {
-      "tag": "tproxy-in",
-      "type": "tproxy",
-      "listen": "::",
-      "listen_port": 7891
-    },
-    {
-      "tag": "tun-in",
-      "type": "tun",
-      "interface_name": "momo",
-      "address": [
-        "172.31.0.1/30",
-        "fdfe:dcba:9876::1/126"
-      ],
-      "auto_route": false,
-      "auto_redirect": false
-    }
-  ],
   "experimental": {
     "cache_file": {
       "enabled": true,
@@ -185,10 +165,5 @@
       "secret": "",
       "default_mode": "rule"
     }
-  },
-  "log": {
-    "disabled": false,
-    "level": "info",
-    "timestamp": true
   }
 }
