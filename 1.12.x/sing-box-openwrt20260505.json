@@ -112,6 +112,8 @@
       { "type": "logical", "mode": "or", "rules": [{ "port": 53 }, { "protocol": "dns" }], "action": "hijack-dns" },
       { "rule_set": "ads_awavenue", "action": "reject" },
       { "ip_is_private": true, "action": "direct" },
+      { "clash_mode": "Global", "outbound": "GLOBAL" },
+      { "clash_mode": "Direct", "action": "direct" },
       { "rule_set": "youtube_domain", "outbound": "youtube" },
       { "rule_set": ["google_ip", "google_domain"], "outbound": "google" },
       { "rule_set": ["telegram_ip", "telegram_domain"], "outbound": "telegram" },
@@ -128,7 +130,7 @@
       { "rule_set": "geolocation-!cn", "outbound": "🚀 默认代理" }
     ],
     "rule_set": [
-      { "tag": "ads_awavenue","type":"remote","format":"source","url":"https://ghfast.top/https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/refs/heads/main/Filters/AWAvenue-Ads-Rule-Singbox.json","download_detour":"direct"},
+      { "tag": "ads_awavenue", "type": "remote", "format": "source", "url": "https://ghfast.top/https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/refs/heads/main/Filters/AWAvenue-Ads-Rule-Singbox.json", "download_detour": "direct" },
       { "tag": "telegram_domain", "type": "remote", "format": "binary", "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/telegram.srs", "download_detour": "direct" },
       { "tag": "youtube_domain", "type": "remote", "format": "binary", "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/youtube.srs", "download_detour": "direct" },
       { "tag": "google_domain", "type": "remote", "format": "binary", "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/google.srs", "download_detour": "direct" },
