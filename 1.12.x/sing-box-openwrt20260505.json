@@ -3,10 +3,9 @@
     "servers": [
       { "tag": "local", "type": "udp", "server": "223.5.5.5" },
       { "tag": "public", "type": "https", "server": "dns.alidns.com", "domain_resolver": "local" },
-      // --- 国外 DoH 节点 ---
       { "tag": "dns-google", "type": "https", "server": "https://8.8.8.8/dns-query", "detour": "🚀 默认代理" },
       { "tag": "dns-cloudflare", "type": "https", "server": "https://1.1.1.1/dns-query", "detour": "🚀 默认代理" },
-      // --- DNS 逻辑组：定义为 dns-doh，对齐 final ---
+	  { "tag": "block", "type": "block" },
       {
         "tag": "dns-doh",
         "type": "selector",
@@ -16,12 +15,15 @@
       { "tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18" }
     ],
     "rules": [
-      { "clash_mode": "direct", "server": "local" },
+	  { "rule_set": "ads_awavenue", "server": "block", "disable_cache": true },
+	
+      { "clash_mode": "direct", "server": "public" },
       { "clash_mode": "global", "server": "fakeip" },
       { "query_type": "HTTPS", "action": "reject" },
-      { "query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1 },
-      // 命中国内域名集时使用阿里 DNS 直连解析
-      { "rule_set": "cn_domain", "server": "local" }
+
+      { "rule_set": "cn_domain", "server": "public" }, 
+      
+      { "query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1 }
     ],
     "final": "dns-doh",
     "client_subnet": "223.5.5.0/24",
@@ -35,15 +37,27 @@
     {
       "tag": "tun-in",
       "type": "tun",
-      "interface_name": "momo",
-      "address": ["172.31.0.1/30", "fdfe:dcba:9876::1/126"],
+      "interface_name": "singbox_tun",
+      "address": [
+        "172.18.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      "mtu": 1500,
       "auto_route": true,
       "strict_route": true,
-      "sniff": true
+      "stack": "system",
+      "sniff": true, 
+      "sniff_override_destination": true,
+      "route_exclude_address": [
+        "10.0.0.0/8",
+        "100.64.0.0/10",
+        "169.254.0.0/16",
+        "172.16.0.0/12",
+        "192.0.0.0/24",
+        "192.168.0.0/16"
+      ]
     }
   ],
   "outbounds": [
-    // --- 1. 业务分流主开关 ---
     { "tag": "美国-中转切换", "type": "selector", "outbounds": ["us-auto", "hk-auto", "jp-auto", "kr-auto", "sg-auto", "tw-auto", "♻️ AT", "📌 MT"], "default": "us-auto" },
     { "tag": "香港-中转切换", "type": "selector", "outbounds": ["hk-auto", "us-auto", "jp-auto", "kr-auto", "sg-auto", "tw-auto", "♻️ AT", "📌 MT"], "default": "hk-auto" },
     { "tag": "日本-中转切换", "type": "selector", "outbounds": ["jp-auto", "us-auto", "hk-auto", "kr-auto", "sg-auto", "tw-auto", "♻️ AT", "📌 MT"], "default": "jp-auto" },
@@ -52,11 +66,9 @@
     { "tag": "台湾-中转切换", "type": "selector", "outbounds": ["tw-auto", "us-auto", "hk-auto", "jp-auto", "kr-auto", "sg-auto", "♻️ AT", "📌 MT"], "default": "tw-auto" },
     { "tag": "🚀 默认代理", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT", "direct"], "default": "♻️ AT" },
 
-    // --- 策略总控 ---
     { "tag": "📌 MT", "type": "selector", "outbounds": ["us", "hk", "jp", "kr", "sg", "tw", "all"], "default": "us" },
     { "tag": "♻️ AT", "type": "selector", "outbounds": ["us-auto", "hk-auto", "jp-auto", "kr-auto", "sg-auto", "tw-auto", "all-auto"], "default": "all-auto" },
 
-    // --- 2. 链式中转逻辑 (落地接中继) ---
     { "tag": "美国-链式", "type": "selector", "outbounds": ["美国-落地专机"], "detour": "美国-中转切换" },
     { "tag": "香港-链式", "type": "selector", "outbounds": ["香港-落地专机"], "detour": "香港-中转切换" },
     { "tag": "日本-链式", "type": "selector", "outbounds": ["日本-落地专机"], "detour": "日本-中转切换" },
@@ -64,7 +76,6 @@
     { "tag": "新加坡-链式", "type": "selector", "outbounds": ["新加坡-落地专机"], "detour": "新加坡-中转切换" },
     { "tag": "台湾-链式", "type": "selector", "outbounds": ["台湾-落地专机"], "detour": "台湾-中转切换" },
 
-    // --- 3. 落地专机组 (脚本自动填充) ---
     { "tag": "香港-落地专机", "type": "selector", "outbounds": [] },
     { "tag": "日本-落地专机", "type": "selector", "outbounds": [] },
     { "tag": "美国-落地专机", "type": "selector", "outbounds": [] },
@@ -72,8 +83,6 @@
     { "tag": "韩国-落地专机", "type": "selector", "outbounds": [] },
     { "tag": "台湾-落地专机", "type": "selector", "outbounds": [] },
 
-    // --- 4. 自动测速组 (脚本自动填充) ---
-    // 修正：已移除原先重复的 hk-auto
     { "tag": "hk-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50 },
     { "tag": "jp-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50 },
     { "tag": "us-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50 },
@@ -82,7 +91,6 @@
     { "tag": "kr-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50 },
     { "tag": "all-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50 },
 
-    // --- 5. 备用手动组 ---
     { "tag": "us", "type": "selector", "outbounds": [] },
     { "tag": "hk", "type": "selector", "outbounds": [] },
     { "tag": "jp", "type": "selector", "outbounds": [] },
@@ -91,7 +99,6 @@
     { "tag": "tw", "type": "selector", "outbounds": [] },
     { "tag": "all", "type": "selector", "outbounds": [] },
 
-    // --- 6. 业务分流 ---
     { "tag": "telegram", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"], "default": "🚀 默认代理" },
     { "tag": "youtube", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"], "default": "🚀 默认代理" },
     { "tag": "google", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"], "default": "🚀 默认代理" },
@@ -116,6 +123,8 @@
       { "protocol": "dns", "outbound": "dns-out" },
       { "action": "sniff", "sniffer": ["http", "tls", "quic", "dns"], "timeout": "500ms" },
       { "type": "logical", "mode": "or", "rules": [{ "port": 53 }, { "protocol": "dns" }], "action": "hijack-dns" },
+	  { "rule_set": "ads_awavenue", "outbound": "block" },
+	  
       { "ip_is_private": true, "outbound": "direct" },
       { "clash_mode": "Global", "outbound": "GLOBAL" },
       { "clash_mode": "Direct", "outbound": "direct" },
@@ -135,6 +144,7 @@
       { "rule_set": "geolocation-!cn", "outbound": "🚀 默认代理" }
     ],
     "rule_set": [
+	  { "tag": "ads_awavenue","type":"remote","format":"source","url":"https://ghfast.top/https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/refs/heads/main/Filters/AWAvenue-Ads-Rule-Singbox.json","download_detour":"direct"},
       { "tag": "telegram_domain", "type": "remote", "format": "binary", "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/telegram.srs", "download_detour": "direct" },
       { "tag": "youtube_domain", "type": "remote", "format": "binary", "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/youtube.srs", "download_detour": "direct" },
       { "tag": "google_domain", "type": "remote", "format": "binary", "url": "https://ghfast.top/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/sing/geo-lite/geosite/google.srs", "download_detour": "direct" },
