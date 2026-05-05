@@ -70,6 +70,7 @@
     {"tag": "新加坡-落地专机", "type": "selector", "outbounds": []},
     {"tag": "韩国-落地专机", "type": "selector", "outbounds": []},
     {"tag": "台湾-落地专机", "type": "selector", "outbounds": []},
+	{"tag": "direct", "type": "direct"},
     {"tag": "🎯 全球直连", "type": "direct"}
   ],
   "route": {
