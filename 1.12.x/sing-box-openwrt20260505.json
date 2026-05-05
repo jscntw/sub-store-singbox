@@ -6,11 +6,7 @@
       { "tag": "dns-google", "type": "https", "server": "https://8.8.8.8/dns-query", "detour": "🚀 默认代理" },
       { "tag": "dns-cloudflare", "type": "https", "server": "https://1.1.1.1/dns-query", "detour": "🚀 默认代理" },
       { "tag": "block", "type": "block" },
-      {
-        "tag": "dns-doh",
-        "type": "selector",
-        "outbounds": ["dns-google", "dns-cloudflare"]
-      },
+      { "tag": "dns-doh", "type": "selector", "outbounds": ["dns-google", "dns-cloudflare"] },
       { "tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18" }
     ],
     "rules": [
@@ -20,34 +16,21 @@
       { "query_type": ["A", "AAAA"], "server": "fakeip", "rewrite_ttl": 1 }
     ],
     "final": "dns-doh",
-    "client_subnet": "223.5.5.0/24",
     "strategy": "prefer_ipv4",
     "independent_cache": true,
     "reverse_mapping": true
   },
   "inbounds": [
-    { "tag": "dns-in", "type": "direct", "listen": "::", "listen_port": 1053 },
     { "tag": "mixed-in", "type": "mixed", "listen": "::", "listen_port": 7890 },
-    {
-      "tag": "redirect-in",
-      "type": "tproxy",
-      "listen": "::",
-      "listen_port": 61818,
-      "sniff": true,
-      "sniff_override_destination": true
-    },
     {
       "tag": "tun-in",
       "type": "tun",
       "interface_name": "singbox_tun",
       "address": ["172.18.0.1/30", "fdfe:dcba:9876::1/126"],
-      "mtu": 1500,
       "auto_route": true,
       "strict_route": true,
-      "stack": "system",
       "sniff": true,
-      "sniff_override_destination": true,
-      "route_exclude_address": ["10.0.0.0/8", "100.64.0.0/10", "169.254.0.0/16", "172.16.0.0/12", "192.0.0.0/24", "192.168.0.0/16"]
+      "sniff_override_destination": true
     }
   ],
   "outbounds": [
@@ -108,7 +91,6 @@
   "route": {
     "rules": [
       { "protocol": "dns", "action": "dns" },
-      { "action": "sniff", "sniffer": ["http", "tls", "quic", "dns"], "timeout": "500ms" },
       { "type": "logical", "mode": "or", "rules": [{ "port": 53 }, { "protocol": "dns" }], "action": "hijack-dns" },
       { "rule_set": "ads_awavenue", "action": "reject" },
       { "ip_is_private": true, "action": "direct" },
