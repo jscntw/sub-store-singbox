@@ -15,8 +15,6 @@
       { 
         "domain": [
           "ghfast.top", 
-          "raw.githubusercontent.com", 
-          "github.com",
           "dns.alidns.com"
         ], 
         "server": "local" 
@@ -77,25 +75,24 @@
     { "tag": "sg", "type": "selector", "outbounds": [] },
     { "tag": "tw", "type": "selector", "outbounds": [] },
     { "tag": "all", "type": "selector", "outbounds": [] },
-    { "tag": "telegram", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
-    { "tag": "youtube", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
-    { "tag": "google", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
-    { "tag": "ai", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
-    { "tag": "cloudflare", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
-    { "tag": "microsoft", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
-    { "tag": "mozilla", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
-    { "tag": "steam", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
-    { "tag": "i-f-x", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
-    { "tag": "speedtest", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
-    { "tag": "github", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
-    { "tag": "apple", "type": "selector", "outbounds": ["direct", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "telegram", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "youtube", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "google", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "ai", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "cloudflare", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "microsoft", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "mozilla", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "steam", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "i-f-x", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "speedtest", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "github", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "apple", "type": "selector", "outbounds": ["direct", "🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
     { "tag": "cn", "type": "selector", "outbounds": ["direct", "🚀 默认代理"] },
-    { "tag": "final", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT", "direct"] },
-    { "tag": "GLOBAL", "type": "selector", "outbounds": ["direct", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "final", "type": "selector", "outbounds": ["🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
+    { "tag": "GLOBAL", "type": "selector", "outbounds": ["direct", "🚀 默认代理", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT"] },
     { "tag": "direct", "type": "direct" }
   ],
   "route": {
-    "default_domain_resolver": "local",
     "rules": [
       { "rule_set": "ads_awavenue", "action": "reject" },
       { "action": "sniff", "sniffer": ["http", "tls", "quic", "dns"] },
@@ -103,6 +100,8 @@
       { "ip_is_private": true, "outbound": "direct" },
       { "clash_mode": "direct", "outbound": "direct" },
       { "clash_mode": "global", "outbound": "GLOBAL" },
+	  { "rule_set": "cn_domain", "outbound": "direct" },
+	  { "rule_set": "cn_ip", "outbound": "direct" },
       { "rule_set": "youtube_domain", "outbound": "youtube" },
       { "rule_set": ["google_ip", "google_domain"], "outbound": "google" },
       { "rule_set": ["telegram_ip", "telegram_domain"], "outbound": "telegram" },
@@ -115,7 +114,6 @@
       { "rule_set": "steam_domain", "outbound": "steam" },
       { "rule_set": ["cloudflare_ip", "cloudflare_domain"], "outbound": "cloudflare" },
       { "rule_set": ["apple_ip", "apple_domain"], "outbound": "apple" },
-      { "rule_set": ["cn_ip", "cn_domain"], "action": "direct" },
       { "rule_set": "geolocation-!cn", "outbound": "🚀 默认代理" }
     ],
     "rule_set": [
