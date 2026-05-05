@@ -30,7 +30,7 @@
     { "tag": "台湾-中转切换", "type": "selector", "outbounds": ["tw-auto", "us-auto", "hk-auto", "jp-auto", "kr-auto", "sg-auto", "♻️ AT", "📌 MT"] },
     { "tag": "🚀 默认代理", "type": "selector", "outbounds": ["♻️ AT", "📌 MT", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "direct"] },
     { "tag": "📌 MT", "type": "selector", "outbounds": ["us", "hk", "jp", "kr", "sg", "tw", "all"] },
-    { "tag": "♻️ AT", "type": "selector", "outbounds": ["us-auto", "hk-auto", "jp-auto", "kr-auto", "sg-auto", "tw-auto", "all-auto"] },
+    { "tag": "♻️ AT", "type": "selector", "outbounds": ["us-auto", "hk-auto", "jp-auto", "kr-auto", "sg-auto", "tw-auto"] },
     { "tag": "美国-链式", "type": "selector", "outbounds": ["美国-落地专机"] },
     { "tag": "香港-链式", "type": "selector", "outbounds": ["香港-落地专机"] },
     { "tag": "日本-链式", "type": "selector", "outbounds": ["日本-落地专机"] },
@@ -49,7 +49,6 @@
     { "tag": "sg-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50 },
     { "tag": "tw-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50 },
     { "tag": "kr-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50 },
-    { "tag": "all-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50 },
     { "tag": "us", "type": "selector", "outbounds": [] },
     { "tag": "hk", "type": "selector", "outbounds": [] },
     { "tag": "jp", "type": "selector", "outbounds": [] },
@@ -75,6 +74,7 @@
     { "tag": "direct", "type": "direct" }
   ],
   "route": {
+	"default_domain_resolver": "local",   
     "rules": [
       { "rule_set": "ads_awavenue", "action": "reject" },
 	  {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
