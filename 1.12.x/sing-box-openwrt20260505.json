@@ -31,6 +31,14 @@
   "inbounds": [
     { "tag": "dns-in", "type": "direct", "listen": "::", "listen_port": 1053 },
     { "tag": "mixed-in", "type": "mixed", "listen": "::", "listen_port": 7890 },
+	{
+      "tag": "redirect-in",
+      "type": "tproxy",
+      "listen": "::",
+      "listen_port": 61818,
+      "sniff": true,
+      "sniff_override_destination": true
+    },
     {
       "tag": "tun-in",
       "type": "tun",
