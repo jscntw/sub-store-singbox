@@ -1,8 +1,11 @@
 const { type, name } = $arguments;
+
+// 将兼容节点改为 dns 类型，避免 1.11+ 弃用 direct 节点导致的报错
 const compatible_outbound = {
   tag: 'COMPATIBLE',
-  type: 'direct',
+  type: 'dns', 
 };
+
 let compatible;
 let config = JSON.parse($files[0]);
 
@@ -17,7 +20,8 @@ config.outbounds.push(...proxies);
 
 config.outbounds.map(i => {
   if (!i.outbounds || !Array.isArray(i.outbounds)) return;
-
+  
+  // 落地专机逻辑
   if (i.tag === '香港-落地专机') {
     i.outbounds.push(...getTags(proxies, /香港-落地专机/i))
   }
@@ -36,6 +40,8 @@ config.outbounds.map(i => {
   if (i.tag === '美国-落地专机') {
     i.outbounds.push(...getTags(proxies, /美国-落地专机/i))
   }
+
+  // 地区自动选择逻辑
   if (['all', 'all-auto'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies))
   }
@@ -59,6 +65,7 @@ config.outbounds.map(i => {
   }
 });
 
+// 如果某个 selector 为空，填入 COMPATIBLE 占位符
 config.outbounds.forEach(outbound => {
   if (Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0) {
     if (!compatible) {
@@ -67,9 +74,9 @@ config.outbounds.forEach(outbound => {
     }
     outbound.outbounds.push(compatible_outbound.tag)
   }
-})
+});
 
-$content = JSON.stringify(config, null, 2)
+$content = JSON.stringify(config, null, 2);
 
 function getTags(proxies, regex) {
   return (regex ? proxies.filter(p => regex.test(p.tag)) : proxies).map(p => p.tag)
