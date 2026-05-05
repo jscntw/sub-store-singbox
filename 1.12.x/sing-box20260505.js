@@ -14,12 +14,12 @@ config.outbounds.push(...proxies);
 config.outbounds.map(i => {
   if (!i.outbounds || !Array.isArray(i.outbounds)) return;
   
-  if (i.tag === '香港-落地专机') i.outbounds.push(...getTags(proxies, /香港-落地专机/i))
-  if (i.tag === '日本-落地专机') i.outbounds.push(...getTags(proxies, /日本-落地专机/i))
-  if (i.tag === '新加坡-落地专机') i.outbounds.push(...getTags(proxies, /新加坡-落地专机/i))
-  if (i.tag === '韩国-落地专机') i.outbounds.push(...getTags(proxies, /韩国-落地专机/i))
-  if (i.tag === '台湾-落地专机') i.outbounds.push(...getTags(proxies, /台湾-落地专机/i))
-  if (i.tag === '美国-落地专机') i.outbounds.push(...getTags(proxies, /美国-落地专机/i))
+  if (i.tag === '香港-落地专机') i.outbounds.push(...getTags(proxies, /香港-落地/i))
+  if (i.tag === '日本-落地专机') i.outbounds.push(...getTags(proxies, /日本-落地/i))
+  if (i.tag === '新加坡-落地专机') i.outbounds.push(...getTags(proxies, /新加坡-落地/i))
+  if (i.tag === '韩国-落地专机') i.outbounds.push(...getTags(proxies, /韩国-落地/i))
+  if (i.tag === '台湾-落地专机') i.outbounds.push(...getTags(proxies, /台湾-落地/i))
+  if (i.tag === '美国-落地专机') i.outbounds.push(...getTags(proxies, /美国-落地/i))
 
   if (['all', 'all-auto'].includes(i.tag)) i.outbounds.push(...getTags(proxies))
   if (['hk', 'hk-auto'].includes(i.tag)) i.outbounds.push(...getTags(proxies, /hk|hongkong|kong kong|🇭🇰/i))
