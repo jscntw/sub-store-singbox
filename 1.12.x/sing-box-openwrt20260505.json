@@ -76,12 +76,12 @@
   ],
   "route": {
     "rules": [
-      { "protocol": "dns", "action": "dns" },
-      { "type": "logical", "mode": "or", "rules": [{ "port": 53 }, { "protocol": "dns" }], "action": "hijack-dns" },
       { "rule_set": "ads_awavenue", "action": "reject" },
-      { "ip_is_private": true, "action": "direct" },
-      { "clash_mode": "Global", "outbound": "GLOBAL" },
-      { "clash_mode": "Direct", "action": "direct" },
+	  {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"]},
+      {"inbound": "dns-in", "action": "hijack-dns"},
+      {"ip_is_private": true, "outbound": "direct"},
+      {"clash_mode": "direct", "outbound": "direct"},	  
+      {"clash_mode": "global", "outbound": "GLOBAL"},
       { "rule_set": "youtube_domain", "outbound": "youtube" },
       { "rule_set": ["google_ip", "google_domain"], "outbound": "google" },
       { "rule_set": ["telegram_ip", "telegram_domain"], "outbound": "telegram" },
