@@ -28,7 +28,7 @@
     { "tag": "韩国-中转切换", "type": "selector", "outbounds": ["kr-auto", "us-auto", "hk-auto", "jp-auto", "sg-auto", "tw-auto", "♻️ AT", "📌 MT"] },
     { "tag": "新加坡-中转切换", "type": "selector", "outbounds": ["sg-auto", "us-auto", "hk-auto", "jp-auto", "kr-auto", "tw-auto", "♻️ AT", "📌 MT"] },
     { "tag": "台湾-中转切换", "type": "selector", "outbounds": ["tw-auto", "us-auto", "hk-auto", "jp-auto", "kr-auto", "sg-auto", "♻️ AT", "📌 MT"] },
-    { "tag": "🚀 默认代理", "type": "selector", "outbounds": ["美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "♻️ AT", "📌 MT", "direct"] },
+    { "tag": "🚀 默认代理", "type": "selector", "outbounds": ["♻️ AT", "📌 MT", "美国-链式", "香港-链式", "日本-链式", "韩国-链式", "新加坡-链式", "台湾-链式", "direct"] },
     { "tag": "📌 MT", "type": "selector", "outbounds": ["us", "hk", "jp", "kr", "sg", "tw", "all"] },
     { "tag": "♻️ AT", "type": "selector", "outbounds": ["us-auto", "hk-auto", "jp-auto", "kr-auto", "sg-auto", "tw-auto", "all-auto"] },
     { "tag": "美国-链式", "type": "selector", "outbounds": ["美国-落地专机"] },
