@@ -79,7 +79,6 @@
     {"tag": "韩国-落地专机", "type": "selector", "outbounds": []},
     {"tag": "台湾-落地专机", "type": "selector", "outbounds": []},
 	{"tag": "ad", "type": "reject"},
-	{"tag": "direct", "type": "direct"},
     {"tag": "🎯 全球直连", "type": "direct"}
   ],
   "route": {
@@ -177,7 +176,7 @@
   },
   "log": {
     "disabled": false,
-    "level": "silent",
+    "level": "info",
     "timestamp": true
   }
 }
