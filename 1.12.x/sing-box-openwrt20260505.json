@@ -3,7 +3,7 @@
     "servers": [
       {"tag": "local", "type": "udp", "server": "223.5.5.5"},
       {"tag": "public", "type": "https", "server": "dns.alidns.com", "domain_resolver": "local"},
-      {"tag": "foreign", "type": "https", "server": "8.8.8.8", "detour": "🚀 默认代理"},
+      {"tag": "foreign", "type": "https", "server": "8.8.8.8", "detour": "all-auto"},
       {"tag": "fakeip", "type": "fakeip", "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18"}
     ],
     "rules": [
@@ -60,6 +60,7 @@
     {"tag": "sg-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50},
     {"tag": "tw-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50},
     {"tag": "kr-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50},
+	{"tag": "all-auto", "type": "urltest", "outbounds": [], "url": "https://www.gstatic.com/generate_204", "interval": "1m", "tolerance": 50},
 	{"tag": "all", "type": "selector", "outbounds": []},
     {"tag": "香港-落地专机", "type": "selector", "outbounds": []},
     {"tag": "日本-落地专机", "type": "selector", "outbounds": []},
