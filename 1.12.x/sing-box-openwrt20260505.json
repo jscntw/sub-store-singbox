@@ -101,7 +101,7 @@
       {"rule_set": "geoip-twitter", "outbound": "c-h-r"},
       {"rule_set": "geoip-facebook", "outbound": "c-h-r"},
       {"rule_set": "geoip-cloudflare", "outbound": "cloudflare"},
-      {"rule_set": "geosite-!cn", "outbound": "🚀 默认代理"},
+      {"rule_set": "geosite-!cn", "outbound": "🔰 other"},
 	  {"rule_set": "geosite-cn", "outbound": "direct"},
       {"rule_set": "geoip-cn", "outbound": "direct"}
     ],
