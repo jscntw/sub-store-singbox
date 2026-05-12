@@ -8,7 +8,6 @@
     ],
     "rules": [
       {"rule_set": "ads-awavenue", "action": "reject"},
-	  {"query_type": "AAAA", "action": "reject"},
       {"clash_mode": "direct", "server": "local"},
       {"clash_mode": "global", "server": "fakeip"},
       {"query_type": "HTTPS", "action": "reject"},
