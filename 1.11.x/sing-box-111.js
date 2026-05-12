@@ -1,5 +1,9 @@
 const { type, name } = $arguments;
 let config = JSON.parse($files[0]);
+
+// 1. 极其重要的防错：确保 outbounds 数组存在
+if (!config.outbounds) config.outbounds = [];
+
 let proxies = await produceArtifact({
   name,
   type: /^1$|col/i.test(type) ? 'collection' : 'subscription',
@@ -7,7 +11,9 @@ let proxies = await produceArtifact({
   produceType: 'internal',
 });
 
-config.outbounds.push(...proxies);
+if (proxies && proxies.length > 0) {
+  config.outbounds.push(...proxies);
+}
 
 const regionMap = {
   'us': /🇺🇸|us|united\s?states|🇺🇲/i,
@@ -18,7 +24,8 @@ const regionMap = {
   'hk': /hk|hong\s?kong|🇭🇰/i
 };
 
-config.outbounds.map(i => {
+// 2. 将 map 改为 forEach，这样更符合你直接修改原数组的逻辑
+config.outbounds.forEach(i => {
   if (!i.outbounds || !Array.isArray(i.outbounds)) return;
 
   if (['all', 'all-auto'].includes(i.tag)) {
@@ -32,6 +39,7 @@ config.outbounds.map(i => {
   }
 });
 
+// 3. 兜底逻辑
 config.outbounds.forEach(outbound => {
   if (Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0) {
     outbound.outbounds.push("direct");
