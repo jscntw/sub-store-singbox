@@ -163,7 +163,7 @@
     },
     "clash_api": {
       "external_controller": "0.0.0.0:18181",
-      "external_ui": "/etc/momo/run/ui",
+      "external_ui": "/etc/momo/run/ui/m",
       "external_ui_download_url": "https://gh-proxy.com/https://github.com/Zephyruso/zashboard/archive/gh-pages.zip",
       "external_ui_download_detour": "direct",
       "secret": "",
