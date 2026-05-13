@@ -30,9 +30,11 @@
   },
   "route": {
     "rules": [
+	  { "rule_set": "ads-awavenue", "action": "reject" },
+      { "protocol": "quic", "action": "reject" }, 
+      { "network": "udp", "port": 443, "action": "reject" },
       {"action": "sniff", "sniffer": ["http", "tls", "quic", "dns"], "timeout": "500ms"},
       {"type": "logical", "mode": "or", "rules": [{"port": 53}, {"protocol": "dns"}], "action": "hijack-dns"},
-      {"rule_set": "ads-awavenue", "action": "reject"},
       {"ip_is_private": true, "action": "route", "outbound": "direct"},
       {"clash_mode": "Global", "action": "route", "outbound": "GLOBAL"},
       {"clash_mode": "Direct", "action": "route", "outbound": "direct"},
