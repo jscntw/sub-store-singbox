@@ -11,18 +11,19 @@
       "inet6_range": "fc00::/18"
     },
     "servers": [
-      {"tag": "chrdns", "address": "https://8.8.8.8/dns-query", "detour": "🚀 默认代理"},
-      {"tag": "local", "address": "https://223.5.5.5/dns-query", "detour": "direct"},
-      {"tag": "fakeip", "address": "fakeip"}
+      { "tag": "chrdns", "address": "https://8.8.8.8/dns-query", "detour": "🚀 默认代理" },
+      { "tag": "local", "address": "https://223.5.5.5/dns-query", "detour": "direct" },
+      { "tag": "fakeip", "address": "fakeip" }
     ],
     "rules": [
-      {"rule_set": "ads-awavenue", "action": "reject"},
-      {"rule_set": "geosite-cn", "action": "route", "server": "local"},
-      {"outbound": "any", "action": "route", "server": "local", "disable_cache": true},
-      {"clash_mode": "Direct", "action": "route", "server": "local"},
-      {"clash_mode": "Global", "action": "route", "server": "fakeip"},
-      {"query_type": "HTTPS", "action": "reject"},
-      {"query_type": ["A", "AAAA"], "action": "route", "server": "fakeip", "rewrite_ttl": 1}
+      { "rule_set": "ads-awavenue", "action": "reject" },
+      { "rule_set": "geosite-cn", "action": "route", "server": "local" },
+      { "rule_set": "geosite-!cn", "action": "route", "server": "chrdns" },
+      { "outbound": "any", "action": "route", "server": "local", "disable_cache": true },
+      { "clash_mode": "Direct", "action": "route", "server": "local" },
+      { "clash_mode": "Global", "action": "route", "server": "fakeip" },
+      { "query_type": "HTTPS", "action": "reject" },
+      { "query_type": [ "A", "AAAA" ], "action": "route", "server": "fakeip", "rewrite_ttl": 1 }
     ],
     "final": "chrdns",
     "independent_cache": true
@@ -47,6 +48,7 @@
       {"rule_set": "geosite-ai", "action": "route", "outbound": "ai"},
       {"rule_set": "geosite-category-ai-!cn", "action": "route", "outbound": "ai"},
       {"rule_set": "geosite-cloudflare", "action": "route", "outbound": "cloudflare"},
+	  {"rule_set": "geosite-!cn", "action": "route", "outbound": "🔰 other"},
       {"rule_set": "geosite-cn", "action": "route", "outbound": "cn"},
       {"action": "resolve"},
       {"type": "logical", "mode": "and", "rules": [{"rule_set": "geosite-!cn"}, {"invert": true, "rule_set": "geosite-cn"}], "action": "route", "outbound": "🚀 默认代理"},
@@ -56,7 +58,6 @@
       {"rule_set": "geoip-cloudflare", "action": "route", "outbound": "cloudflare"},
       {"rule_set": "geoip-google", "action": "route", "outbound": "google"},
       {"rule_set": "geoip-apple", "action": "route", "outbound": "apple"},
-      {"rule_set": "geosite-!cn", "action": "route", "outbound": "🔰 other"},
       {"rule_set": "geoip-cn", "action": "route", "outbound": "cn"}
     ],
     "rule_set": [
