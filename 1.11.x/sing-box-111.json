@@ -54,7 +54,7 @@
       {"rule_set": "geoip-facebook", "action": "route", "outbound": "c-h-r"},
       {"rule_set": "geoip-twitter", "action": "route", "outbound": "c-h-r"},
       {"rule_set": "geoip-cloudflare", "action": "route", "outbound": "cloudflare"},
-      {"rule_set": "google_ip", "action": "route", "outbound": "google"},
+      {"rule_set": "geoip-google", "action": "route", "outbound": "google"},
       {"rule_set": "geoip-apple", "action": "route", "outbound": "apple"},
       {"rule_set": "geosite-!cn", "action": "route", "outbound": "🔰 other"},
       {"rule_set": "geoip-cn", "action": "route", "outbound": "cn"}
