@@ -123,7 +123,7 @@
     {"tag": "all", "type": "selector", "outbounds": [""]},
     {"tag": "all-auto", "type": "urltest", "outbounds": [""], "url": "https://www.gstatic.com/generate_204", "interval": "10m", "tolerance": 50},
     {"tag": "GLOBAL", "type": "selector", "outbounds": ["direct", "🚀 默认代理"], "default": "direct"},
-	{"tag": "🇨🇳 DIRECT", "type": "direct"}
+	{"tag": "🇨🇳 DIRECT", "type": "direct"},
     {"tag": "direct", "type": "direct"}
   ],
   "inbounds": [
